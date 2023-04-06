@@ -2,16 +2,15 @@
   import { invoke } from "@tauri-apps/api/tauri"
 
   let name = "";
-  let greetMsg = ""
+  let users: Teste[] = [];
   type Teste = {
-    name: String,
-    idade: number
+    id: number,
+    name: string,
+    email: string,
+    password: string,
   }
   async function greet(){
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    greetMsg = await invoke("greet", { name })
-    let res = JSON.parse(greetMsg) as Teste;
-    greetMsg = `${res.name} - ${res.idade}`
+      users = await invoke("get_all_users");
   }
 </script>
 
@@ -21,6 +20,14 @@
     <button on:click={greet}>
       Greet
     </button>
+
+    <ul>
+      {#each users as user}
+        <li>
+          {user.name}
+          {user.email}
+        </li>
+      {/each}
+    </ul>
   </div>
-  <p>{greetMsg}</p>
 </div>
