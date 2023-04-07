@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { invoke } from "@tauri-apps/api/tauri"
+  import { invoke } from '@tauri-apps/api'
 
   let name = "";
   let users: Teste[] = [];

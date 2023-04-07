@@ -6,8 +6,7 @@ pub async fn get_all_users(
     state: tauri::State<'_, atelie_logistc::AppState>,
 ) -> Result<Vec<user::Model>, String> {
     let conn = state.conn.lock().await;
-    let test = &*conn;
-    let users = repository::get_all(test).await;
+    let users = repository::get_all(&conn).await;
 
     match users {
         Some(usr) => Ok(usr),
