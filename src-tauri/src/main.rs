@@ -21,7 +21,11 @@ async fn main() {
 
     tauri::Builder::default()
         .manage(state)
-        .invoke_handler(tauri::generate_handler![user::handles::get_all_users])
+        .invoke_handler(tauri::generate_handler![
+            user::handles::get_all_users,
+            user::handles::create_user,
+            user::handles::login
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

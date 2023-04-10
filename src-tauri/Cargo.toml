@@ -23,14 +23,18 @@ tokio = { version = "1", features = ["full"] }
 entity = { path = "entity" }
 migration = { path = "migration" }
 dotenv = "0.15.0"
+argon2 = "0.5.0"
 
 [workspace]
 members = [".", "entity", "migration"]
 
 [features]
+# by default Tauri runs in production mode
+# when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL
+default = ["custom-protocol"]
 # this feature is used for production builds where `devPath` points to the filesystem
 # DO NOT remove this
-custom-protocol = [ "tauri/custom-protocol" ]
+custom-protocol = ["tauri/custom-protocol"]
 
 [registries.crates-io]
 protocal = "sparse"
