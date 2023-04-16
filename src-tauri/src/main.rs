@@ -2,15 +2,14 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use tokio::sync::Mutex;
 
-use dotenv::dotenv;
 use migration::{Migrator, MigratorTrait};
 use sea_orm::DatabaseConnection;
 
+mod auth;
 mod user;
 
 #[tokio::main]
 async fn main() {
-    dotenv().ok();
     let db: DatabaseConnection = atelie_logistc::establish_db_connection().await.unwrap();
 
     Migrator::up(&db, None).await.unwrap();
