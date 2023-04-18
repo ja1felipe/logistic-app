@@ -32,7 +32,7 @@ pub async fn create_user(
 
     match user {
         Ok(user) => Ok(user),
-        Err(_) => Err("Failed to create new user.".to_string()),
+        Err(error) => Err(error),
     }
 }
 

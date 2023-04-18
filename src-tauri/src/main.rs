@@ -6,6 +6,8 @@ use migration::{Migrator, MigratorTrait};
 use sea_orm::DatabaseConnection;
 
 mod auth;
+mod category;
+mod item;
 mod user;
 
 #[tokio::main]

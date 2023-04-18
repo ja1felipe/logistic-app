@@ -31,14 +31,17 @@ pub async fn create(
         .to_string();
 
     let Ok(mut user) = user::ActiveModel::from_json(json!(new_user)) else {
-        return Err("Failed creating a user".to_string());
-    };
+            return Err("Failed creating a user from json".to_string());
+        };
 
     user.set(user::Column::Password, password_hard.into());
 
     match user.insert(db).await {
         Ok(user) => Ok(user),
-        Err(_) => Err("Failed creating a user".to_string()),
+        Err(error) => {
+            eprint!("{:#?}", error);
+            Err("Failed insert an user".to_string())
+        }
     }
 }
 
@@ -58,6 +61,7 @@ pub async fn login(
             let send_pw = user.password.clone();
             let db_pw = db_user.password.clone();
             let parsed_hash = PasswordHash::new(&db_pw).unwrap();
+
             if Argon2::default()
                 .verify_password(send_pw.as_bytes(), &parsed_hash)
                 .is_ok()

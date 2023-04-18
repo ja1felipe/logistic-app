@@ -4,20 +4,26 @@ use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
-#[sea_orm(table_name = "user")]
+#[sea_orm(table_name = "category")]
 pub struct Model {
     #[sea_orm(primary_key)]
     #[serde(skip_deserializing)]
     pub id: i32,
-    pub name: String,
     #[sea_orm(unique)]
-    pub email: String,
-    #[sea_orm(column_name = "_password")]
-    #[serde(skip)]
-    pub password: String,
+    pub code: String,
+    pub description: String,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
-pub enum Relation {}
+pub enum Relation {
+    #[sea_orm(has_many = "super::item::Entity")]
+    Item,
+}
+
+impl Related<super::item::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::Item.def()
+    }
+}
 
 impl ActiveModelBehavior for ActiveModel {}
