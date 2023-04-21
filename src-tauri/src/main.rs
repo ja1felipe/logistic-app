@@ -30,6 +30,11 @@ async fn main() {
             category::handles::get_all_category,
             category::handles::update_category,
             category::handles::delete_category,
+            item::handles::create_item,
+            item::handles::get_item_by_category,
+            item::handles::get_item_by_id,
+            item::handles::get_item_by_description,
+            item::handles::update_item,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
