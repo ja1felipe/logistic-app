@@ -22,11 +22,10 @@ pub async fn create(
     db: &DatabaseConnection,
     new_user: &CreateUserInputDTO,
 ) -> Result<user::Model, String> {
-    let password = new_user.password.clone();
     let salt = SaltString::generate(&mut OsRng);
     let argon2 = Argon2::default();
     let password_hard = argon2
-        .hash_password(password.as_bytes(), &salt)
+        .hash_password(new_user.password.as_bytes(), &salt)
         .unwrap()
         .to_string();
 
@@ -58,12 +57,10 @@ pub async fn login(
 
     match db_user {
         Some(db_user) => {
-            let send_pw = user.password.clone();
-            let db_pw = db_user.password.clone();
-            let parsed_hash = PasswordHash::new(&db_pw).unwrap();
+            let parsed_hash = PasswordHash::new(&db_user.password).unwrap();
 
             if Argon2::default()
-                .verify_password(send_pw.as_bytes(), &parsed_hash)
+                .verify_password(user.password.as_bytes(), &parsed_hash)
                 .is_ok()
             {
                 Ok(db_user)

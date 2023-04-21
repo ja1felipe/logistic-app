@@ -25,7 +25,11 @@ async fn main() {
         .invoke_handler(tauri::generate_handler![
             user::handles::get_all_users,
             user::handles::create_user,
-            user::handles::login
+            user::handles::login,
+            category::handles::create_category,
+            category::handles::get_all_category,
+            category::handles::update_category,
+            category::handles::delete_category,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
