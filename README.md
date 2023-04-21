@@ -1,38 +1,28 @@
-# create-svelte
+### Project
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+This is a project of a Desktop APP to do the logistic of products. Project used to learn the Rust language, and the SvelteKit framework.
 
-## Creating a project
+### Builded with
 
-If you're seeing this, you've probably already done this step. Congrats!
+- [Tauri](https://tauri.app/) for the backend logic
+- [SeaORM](https://www.sea-ql.org/SeaORM/) for handle the database
+- [SvelteKit](https://kit.svelte.dev/) for handle the client side
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+### Running the project
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+#### Prerequisites
 
-## Developing
+- [Rust/Cargo](https://www.rust-lang.org/)
+- [Node](https://nodejs.org/en)
+- SeaORM CLI `cargo install sea-orm-cli`
+- [Docker](https://www.docker.com/) for run the database
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Steps to run
 
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- Clone the repo
+- Install the node packages with `yarn` or `npm install`
+- Create a .env on the root, and a .env inside the `src-tauri/Docker` (use the .env.example as base)
+- Run the database with `docker compose -f Docker/docker-compose.yaml up -d`
+- Run the migrations with `sea-orm-cli generate entity --with-serde both --serde-skip-hidden-column --serde-skip-deserializing-primary-key -o entity/src`
+- Run the seeds with `cargo run --bin seed`
+- Run the project with `yarn tauri dev` or `npm run tauri dev`
