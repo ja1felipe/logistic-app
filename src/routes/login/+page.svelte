@@ -1,18 +1,20 @@
 <script lang="ts">
 	import { invoke } from '@tauri-apps/api';
+	import { token } from '../../stores/token';
 
-	let user: String;
-	let email: String;
-	let password: String;
+	let tokenReturned: string;
+	let email: string;
+	let password: string;
 
-	let users: String;
+	let users: string;
 
 	async function handleLogin() {
 		invoke('login', {
 			user: { email, password }
 		})
 			.then((res) => {
-				user = res as String;
+				tokenReturned = res as string;
+				token.set(tokenReturned);
 			})
 			.catch((err) => {
 				console.error(err);
@@ -21,10 +23,10 @@
 
 	async function handleGetAll() {
 		invoke('get_all_users', {
-			token: ''
+			tokenReturned
 		})
 			.then((res) => {
-				users = res as String;
+				users = res as string;
 			})
 			.catch((err) => {
 				console.error(err);
@@ -38,9 +40,9 @@
 
 	<input type="submit" value="Entrar" placeholder="Entrar" />
 </form>
-{JSON.stringify(user)}
+{JSON.stringify(tokenReturned)}
 
-{#if user}
+{#if tokenReturned}
 	<button on:click={handleGetAll}>Opa</button>
 	{JSON.stringify(users)}
 {/if}
